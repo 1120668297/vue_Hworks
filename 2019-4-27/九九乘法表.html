@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>9*9乘法表</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <style>
+    *{padding: 0; margin: 0;}
+    .wrap input{
+      margin: 50px;
+    }
+    span{
+      display: inline-block;
+      width: 80px;
+      height: 20px;
+      margin: 3px;
+      line-height: 20px;
+      text-align: center;
+      border: 1px solid #ff0036;
+      border-radius: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <input type="button" value="点击生成9*9乘法表" v-on:click="hide()">
+    <div v-for="i in nine" v-show="onOff">
+      <span v-for="j in i">{{`${j}*${i}=${i*j}`}}</span>
+    </div>
+  </div>
+
+  <script>
+    let vm = new Vue({
+      el: '.wrap',
+      data: {
+        onOff: false,
+        nine: 9
+      },
+      methods: {
+        hide(){
+          this.onOff = !this.onOff;
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

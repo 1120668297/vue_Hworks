@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>9*9乘法表</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        #app{
+            width: 500px;
+            height: 500px;
+            margin: 50px auto;
+            border: 1px solid #ff0036;
+        }
+        #app .content {
+            width: 480px;
+            height: 400px;
+            margin: 10px auto;
+            border: 1px solid #eeff22;
+        }
+        #app .content ul li{
+            /* min-width: 10px; */
+            padding: 3px;
+            margin: 5px;
+            border: 1px solid brown;
+            line-height: 20px;
+            border-radius: 10px;
+            word-break: normal;  /*依照亚洲语言和非亚洲语言的文本规则，允许在字内换行*/
+            /* word-wrap: break-word; */
+        }
+        #app p {
+            text-align: center;
+        }
+        #app p textarea{
+            vertical-align: middle;
+        }
+        #app p button{
+            width: 40px;
+            height: 30px;
+            vertical-align: middle
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="content">
+            <ul>
+                <li v-for="(val, index) in newsList">{{val}}</li>
+            </ul>
+        </div>
+        <p>
+            <textarea name="" id="" cols="60" rows="2" v-model="text"></textarea>
+            <button @click="sendNew">发送</button>
+        </p>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                text: "",
+                newsList: []
+            },
+            methods: {
+                sendNew(){
+                    // console.log(this.text);
+                    this.newsList.push(this.text);
+                    this.text = "";
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
