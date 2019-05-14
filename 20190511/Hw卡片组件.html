@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .card{
+            width: 400px;
+            /* height: 400px; */
+            margin: 100px auto;
+            border: 2px solid #f5f5f5;
+        }
+        .card:hover{
+            box-shadow: 0 0 15px #f3f3f3;
+        }
+        .card .header{
+            display: flex;
+            line-height: 50px;
+            justify-content: space-between;
+            border: 2px solid #f5f5f5;
+            border-width: 0 0 2px 0;
+        }
+        .card .header div{
+            margin: 0 20px;
+        }
+
+        .card .content li{
+            display: flex;
+            line-height: 40px;
+            justify-content: space-between;
+        }
+        .card .content li span{
+            margin: 0 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        Vue.component("ICard", {
+            props: {
+                
+            },
+            data() {
+                return {
+                    
+                }
+            },
+            template: `
+                <div class="card">
+                    <div class="header">
+                        <slot name="header" />
+                    </div>
+                    <div class="content">
+                        <slot name="content" />
+                    </div>
+                </div>
+            `
+        })
+
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                arr: [
+                    {title: "Spirited Away", grade: 9.2},
+                    {title: "WALL·E", grade: 9.3},
+                    {title: "The Shawshank Redemption", grade: 9.6},
+                    {title: "Leon:The Professional", grade: 9.4},
+                    {title: "Inception", grade: 9.2}
+                ]
+            },
+            template: `
+                <ICard>
+                    <template slot="header">
+                        <div>Classic film</div>
+                        <div>change</div>
+                    </template>
+                    <template slot="content">
+                        <ul>
+                            <li v-for="item in arr">
+                                <span>{{item.title}}</span>
+                                <span>{{item.grade}}</span>
+                            </li>
+                        </ul>
+                    </template>
+                </ICard>
+            `
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <style>
+        body {
+            /* background: #000; */
+        }
+
+        #app {
+            width: 300px;
+            height: 300px;
+            margin: 100px auto;
+            border: 1px solid #ff0036;
+        }
+
+        .wrap {
+            position: relative;
+            width: 80px;
+            height: 30px;
+            background: grey;
+            border-radius: 15px;
+        }
+
+        .wrap .circle {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #fff;
+            border-radius: 50%;
+            transition: .5s;
+        }
+        .active1{
+            background-color: skyblue;
+        }
+
+        .active2{
+            left: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        /**
+            为什么添加transition不能实现动画开关额效果？
+        */
+        const ISwitch = {
+            props: {
+                value: Boolean
+            },
+            template: `
+                <div>
+                    <input type="checkbox" v-model="checked" />{{checked}}
+                    <div :class="['wrap', {'active1': isActive1}]">
+                        <div :class="['circle', {'active2': isActive2}]" @click="run()"></div>
+                    </div>
+                </div>
+            `,
+            data () {
+                return {
+                    checked: this.value,
+                    isActive1: false,
+                    isActive2: false
+                }
+            },
+            methods: {
+                run(){
+                    this.checked = !this.checked
+                    if(this.checked){
+                        this.isActive1 = true
+                        this.isActive2 = true
+                    }else{
+                        this.isActive1 = false
+                        this.isActive2 = false
+                    }
+                }
+            },
+            watch: {
+                checked(v){
+                    this.checked = !this.checked
+                    this.run()
+                }
+            }
+        }
+
+        new Vue({
+            el: "#app",
+            data: {
+                selected: false
+            },
+            components: {
+                ISwitch
+            },
+            template: `
+                <ISwitch v-model="selected"/>
+            `
+        })
+    </script>
+</body>
+
+</html>

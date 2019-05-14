@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>模拟搜索框</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .app {
+            width: 400px;
+            height: 400px;
+            margin: 30px auto;
+            border: 1px soid #000;
+        }
+
+        #app ul {
+            width: 100%;
+            border: 1px solid #000;
+            border-color: #000 transparent;
+        }
+
+        #app ul li {
+            width: 100%;
+            line-height: 30px;
+            border: 1px solid #000;
+            border-color: transparent #000;
+        }
+
+        #app ul li.active {
+            background-color: grey;
+        }
+
+        #app ul li:hover {
+            background-color: grey;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        const InputSearch = {
+            props: {
+                value: String
+            },
+            data() {
+                return {
+                    newVal: this.value,
+                    arr: ['张三', '李四', '老王', '赵柳', '金科', '张四'],
+                    selectIndex: -1,
+                    on: true
+                }
+            },
+            methods: {
+                // 点击鼠标选择所选项
+                selectOne(index) {
+                    this.newVal = this.searchList[index]
+                },
+                selectUp() {
+                    this.selectIndex--
+                },
+                selectDown() {
+                    this.selectIndex++
+                },
+                // 回车选中列表项
+                selectEnter() {
+                    this.newVal = this.searchList[this.selectIndex]
+                }
+            },
+            computed: {
+                searchList() {
+                    this.on = true
+                    // 没有输入内容时，不显示搜索框
+                    if (!this.newVal) return [];
+                    let data = this.newVal;
+                    let arr1 = [];
+                    let onOff = false;
+                    // 当输入框中内容与数组项完全匹配时，不在执行改方法
+                    this.arr.forEach(item => {
+                        if (item === data) {
+                            onOff = true
+                        }
+                    });
+                    if (onOff) {
+                        onOff = false
+                        this.on = false
+                        return []
+                    }
+                    arr1 = this.arr.filter(item => {
+                        return item.indexOf(data) !== -1
+                    })
+                    return arr1.length === 0 ? [] : arr1
+                }
+            },
+            watch: {
+                newVal(v){
+                    this.$emit('input', v)
+                },
+                value(v){
+                    this.newVal = v
+                },
+                selectIndex(newValue) {
+                    if (newValue >= this.searchList.length) {
+                        this.selectIndex = 0
+                    } else if (newValue < 0) {
+                        this.selectIndex = this.searchList.length - 1
+                    }
+                }
+            },
+            template: `
+                <div id="app">
+                    <input type="text" v-model="newVal" @keydown.up="selectUp" @keydown.down="selectDown"
+                        @keydown.enter="selectEnter" placeholder="子组件">
+                    <ul v-if="searchList.length">
+                        <li v-for="(item, index) in searchList" @click="selectOne(index)"
+                            :class="{active: index===selectIndex}">
+                            {{item}}
+                        </li>
+                    </ul>
+                    <span v-if="!searchList.length && on">没有匹配的结果</span>
+                </div>
+            `
+        }
+
+        new Vue({
+            el: "#app",
+            data: {
+                content: ""
+            },
+            components: {
+                InputSearch
+            },
+            methods: {
+                handChange(value){
+                    this.content = value
+                }
+            },
+            template: `
+                <div class="app">
+                    <input type="text" v-model="content" placeholder="父组件" />
+                    <br>
+                    ===================
+                    <br>
+                    <InputSearch v-model="content" @input="handChange" />
+                </div>
+            `
+        })
+    </script>
+</body>
+
+</html>
