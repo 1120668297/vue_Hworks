@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 非生产版本 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <link rel="stylesheet" href="./bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        span{
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script>
+        const iIcon = {
+            props: {
+                name: String,
+                size: String,
+                color: String
+            },
+            data () {
+                return {
+                    iName: [...this.name]
+                }
+            },
+            template: `
+                <div>
+                    <button type="button" 
+                        :class="['btn', 'btn-' + size, 
+                            {'btn-default': color === 'default',
+                            'btn-primary': color === 'primary',
+                            'btn-success': color === 'success',
+                            'btn-info': color === 'info',
+                            'btn-warning': color === 'warning',
+                            'btn-danger': color === 'danger'
+                            }]"
+                    >
+                        <span :class="['glyphicon', name]"></span>
+                    </button>
+                </div>
+            `
+        }
+
+        new Vue({
+            el: "#app",
+            data: {
+                
+            },
+            components: {
+                iIcon
+            },
+            template: `
+            <div>
+                <iIcon name="glyphicon-phone" size="lg" color="default"/>
+                <iIcon name="glyphicon-plus" size="md" color="danger" />
+                <iIcon name="glyphicon-euro" size="xs" color="success" />
+                <iIcon name="glyphicon-certificate" color="warning" />
+                <iIcon name="glyphicon-pencil" size="lg" color="info" />
+            </div>
+            `
+        })
+    </script>
+</body>
+</html>

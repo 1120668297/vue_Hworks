@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 非生产版本 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <link rel="stylesheet" href="./bootstrap/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div id="app">
+        <i-button css-type="success" size="lg" active>成功lg激活</i-button>
+        <i-button css-type="danger" size="md">危险md</i-button>
+        <i-button css-type="warning" size="xs">危险xs</i-button>
+        <i-button css-type="primary" size="md" disabled>primary-md-禁用</i-button>
+        <i-button css-type="info" size="lg" disabled status="block">info-lg-禁用-块状</i-button>
+    </div>
+
+    <script>
+        Vue.component("iButton", {
+            template: `
+                <button 
+                    :class="['btn', 'btn-' + cssType, 'btn-' + size,
+                        {active: active},
+                        {disabled},
+                        {
+                            'btn-block': status === 'block',
+                            'btn-inline': !status
+                        }
+                    ]"
+
+                >
+                    <slot />
+                </button>
+            `,
+            props: {
+                cssType: String,
+                size: String,
+                active: Boolean,
+                disabled: Boolean,
+                status: String
+            }
+        })
+
+        new Vue({
+            el: "#app"
+        })
+    </script>
+</body>
+
+</html>

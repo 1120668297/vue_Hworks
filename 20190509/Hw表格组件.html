@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <link rel="stylesheet" href="./bootstrap/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div id="app"></div>
+
+
+    <script>
+        const iTable = {
+            data () {
+                return {
+                    iColums: {...this.colums},
+                    iDataBody: [...this.dataBody]
+                }
+            },
+            props: {
+                colums: Array,
+                dataBody: Array,
+                striped: String,
+                bordered: String,
+                hover: String,
+                condensed: String
+            },
+            template: `
+                <table border="1"
+                    :class="['table', 'table-' + striped, 'table-' + bordered, 'table-' + hover, 'table-' + condensed]">
+                    <thead>
+                        <tr >
+                            <th v-for="item1 in iColums">{{item1}}</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr v-for="item2 in iDataBody">
+                            <td>{{item2.name}}</td>
+                            <td>{{item2.age}}</td>
+                            <td>{{item2.sex}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `
+        }
+
+        new Vue({
+            el: "#app",
+            data: {
+                colums: ["姓名", "年龄", "性别"],
+                dataBody: [
+                    {name: "张三", age: 18, sex: "男"},
+                    {name: "李四", age: 19, sex: "女"},
+                    {name: "王五", age: 20, sex: "男"},
+                    {name: "赵六", age: 21, sex: "女"},
+                ],
+                striped: 'striped',
+                bordered: 'bordered',
+                hover: 'hover',
+                condensed: 'condensed'
+            },
+            components: {
+                iTable
+            },
+            template: `
+                <div id="app">
+                    <iTable :colums="colums" :dataBody="dataBody" :striped="striped" :bordered="bordered"
+                        :hover="hover" :condensed="condensed"/>
+                </div>
+            `
+        })
+    </script>
+</body>
+
+</html>
